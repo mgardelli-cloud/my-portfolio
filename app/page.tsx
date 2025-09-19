@@ -64,6 +64,12 @@ export default function Home() {
     },
   ]
 
+  // Funzione per generare l'URL di Wikipedia
+  const getWikipediaUrl = (skill) => {
+    const pageName = skill.replace(/ /g, '_').replace(/&/g, 'and');
+    return `https://en.wikipedia.org/wiki/${pageName}`;
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
@@ -130,12 +136,15 @@ export default function Home() {
                 <div className="text-sm text-muted-foreground font-mono">FOCUS</div>
                 <div className="flex flex-wrap gap-2">
                   {["Auto-ID", "RFID", "Print & Apply", "Industrial Automation", "Traceability"].map((skill) => (
-                    <span
+                    <a
                       key={skill}
+                      href={getWikipediaUrl(skill)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="px-3 py-1 text-xs border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300"
                     >
                       {skill}
-                    </span>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -250,7 +259,7 @@ export default function Home() {
                     <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{post.excerpt}</p>
 
                     <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                      <span>© </span>
+                      <span>Read more</span>
                       <svg
                         className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
                         fill="none"
