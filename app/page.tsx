@@ -141,7 +141,7 @@ export default function Home() {
                   role: "Systems Integrator / Solutions Architect",
                   company: "Pluriservice SPA",
                   description:
-                    "Coding (Scripting, APIs, PLC, Middleware). Enabling real-time communication between shop floor and management software, full-stack traceability from production to shipping.",
+                    "PLC wiring. Coding (Scripting, APIs, Middleware). Enabling real-time communication between shop floor and management software, full-stack traceability from production to shipping.",
                   tech: ["APIs", "PLC", "Middleware", "Scripting"],
                 },
                 {
@@ -157,8 +157,8 @@ export default function Home() {
                   role: "Technical Specialist",
                   company: "Pluriservice SPA",
                   description:
-                    "Started career focusing on Auto-ID solutions and industrial hardware integration for manufacturing environments.",
-                  tech: ["Auto-ID", "Industrial Hardware", "Manufacturing"],
+                    "Started career focusing on Auto-ID solutions, industrial hardware repairs and Failure Analysis for manufacturing environments.",
+                  tech: ["Auto-ID", "Industrial Hardware", "Laboratory", "Manufacturing"],
                 },
               ].map((job, index) => (
                 <div
