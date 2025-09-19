@@ -133,8 +133,8 @@ export default function Home() {
                   role: "Technical Consultant / Specialist",
                   company: "Pluriservice SPA",
                   description:
-                    "For projects in food, Pharma, automotive or manufacturing that require item-level traceability and Labeling.",
-                  tech: ["Traceability", "Labeling", "MES/ERP", "WMS"],
+                    "For projects in Food, Pharma, Automotive or Manufacturing that require item-level Traceability and Labeling.",
+                  tech: ["Traceability", "Labeling", "MES/ERP", "Automation", "WMS"],
                 },
                 {
                   year: "2020 - Present",
