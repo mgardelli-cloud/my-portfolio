@@ -64,8 +64,18 @@ export default function Home() {
     },
   ]
 
+  // Mappa i link di Wikipedia specifici per ogni skill
+  const wikipediaLinks = {
+    "Auto-ID": "https://en.wikipedia.org/wiki/Automatic_identification_and_data_capture",
+    "Print & Apply": "https://en.wikipedia.org/wiki/Label_printer_applicator",
+  };
+
   // Funzione per generare l'URL di Wikipedia
   const getWikipediaUrl = (skill) => {
+    // Usa il link specifico se esiste, altrimenti genera quello generico
+    if (wikipediaLinks[skill]) {
+      return wikipediaLinks[skill];
+    }
     const pageName = skill.replace(/ /g, '_').replace(/&/g, 'and');
     return `https://en.wikipedia.org/wiki/${pageName}`;
   };
