@@ -90,7 +90,23 @@ export default function Home() {
 
     return createPortal(
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in-fast">
-        <div className="relative w-full max-w-2xl p-6 sm:p-8 rounded-lg bg-card border border-border shadow-2xl transition-all duration-300 transform scale-95 opacity-0 animate-scale-in">
+        <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto p-6 sm:p-8 rounded-lg bg-card border border-border shadow-2xl transition-all duration-300 transform scale-95 opacity-0 animate-scale-in">
+          {/* Back arrow button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 left-4 text-white hover:text-gray-300 transition-colors"
+            aria-label="Close modal"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </button>
+          {/* Close button (X) */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
@@ -105,7 +121,7 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <div className="space-y-4">
+          <div className="space-y-4 pt-10">
             <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
               <span>{project.date}</span>
               <span>{project.readTime}</span>
@@ -114,6 +130,15 @@ export default function Home() {
               {project.title}
             </h3>
             <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{project.excerpt}</p>
+            {/* Placeholder text for the user to replace */}
+            <div className="mt-8 space-y-4">
+              <p className="text-foreground text-sm sm:text-base leading-relaxed">
+                Questo è un testo di esempio per riempire il popup. Puoi sostituirlo con i dettagli completi del progetto, come obiettivi, sfide tecniche, soluzioni implementate e risultati raggiunti.
+              </p>
+              <p className="text-foreground text-sm sm:text-base leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              </p>
+            </div>
           </div>
         </div>
       </div>,
