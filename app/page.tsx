@@ -157,7 +157,7 @@ export default function Home() {
                   role: "Technical Specialist",
                   company: "Pluriservice SPA",
                   description:
-                    "Started career focusing on Auto-ID solutions, industrial hardware repairs and Failure Analysis for manufacturing environments.",
+                    "Started career focusing on Auto-ID solutions, Industrial Hardware Repairs and Failure Analysis for manufacturing environments.",
                   tech: ["Auto-ID", "Industrial Hardware", "Laboratory", "Manufacturing"],
                 },
               ].map((job, index) => (
@@ -206,14 +206,14 @@ export default function Home() {
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
               {[
                 {
-                  title: "Stationary Industrial Scanners, photocell-operated, interfaced to MES/ERP with custom middleware",
+                  title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
                   excerpt:
-                    "Implementation of fixed industrial scanning systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
+                    "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
                   readTime: "Auto-ID",
                   date: "2025",
                 },
                 {
-                  title: "RFID label tags serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
+                  title: "RFID label Tags Serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
                   excerpt:
                     "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
                   readTime: "Automation - Traceability",
@@ -227,7 +227,7 @@ export default function Home() {
                   date: "2024",
                 },
                 {
-                  title: "Industrial android devices fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
+                  title: "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
                   excerpt:
                     "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
                   readTime: "Auto-ID",
