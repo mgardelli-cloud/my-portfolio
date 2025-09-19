@@ -40,14 +40,14 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative">
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "thoughts", "connect"].map((section) => (
+          {["intro", "work", "projects", "connect"].map((section) => (
             <button
               key={section}
               onClick={() => document.getElementById(section)?.scrollIntoView({ behavior: "smooth" })}
               className={`w-2 h-8 rounded-full transition-all duration-500 ${
                 activeSection === section ? "bg-foreground" : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
               }`}
-              aria-label={`Navigate to ${section}`}
+              aria-label={`Maps to ${section}`}
             />
           ))}
         </div>
@@ -196,42 +196,42 @@ export default function Home() {
         </section>
 
         <section
-          id="thoughts"
+          id="projects"
           ref={(el) => (sectionsRef.current[2] = el)}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
           <div className="space-y-12 sm:space-y-16">
-            <h2 className="text-3xl sm:text-4xl font-light">Recent Thoughts</h2>
+            <h2 className="text-3xl sm:text-4xl font-light">Recent Projects</h2>
 
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
               {[
                 {
-                  title: "The Automation Revolution: From Cost Center to Competitive Edge",
+                  title: "Stationary Industrial Scanners, photocell-operated, interfaced to MES/ERP with custom middleware",
                   excerpt:
-                    "Industrial automation has evolved beyond cost-cutting to become a strategic asset that unlocks agility, quality, and competitiveness in today's volatile market.",
-                  readTime: "4 min read",
+                    "Implementation of fixed industrial scanning systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
+                  readTime: "Auto-ID",
                   date: "2025",
                 },
                 {
-                  title: "The Silent Guardian: How Traceability Builds Trust and Resilience",
+                  title: "RFID label tags serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
                   excerpt:
-                    "Traceability transforms from regulatory burden to powerful tool for building consumer trust and operational resilience across supply chains.",
-                  readTime: "3 min read",
+                    "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
+                  readTime: "Automation - Traceability",
                   date: "2025",
                 },
                 {
-                  title: "The Synergy of Automation and Traceability: A Digital Backbone",
+                  title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
                   excerpt:
-                    "When automation and traceability work together, they form a digital backbone that drives efficiency, quality, and intelligence across manufacturing operations.",
-                  readTime: "4 min read",
-                  date: "2025",
+                    "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
+                  readTime: "Print & Apply",
+                  date: "2024",
                 },
                 {
-                  title: "The Future is Smart: Navigating the Next Wave of Industrial Transformation",
+                  title: "Industrial android devices fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
                   excerpt:
-                    "AI, IoT, and digital twins are driving the next phase of industrial transformation, creating unprecedented levels of predictive control and optimization.",
-                  readTime: "5 min read",
-                  date: "2025",
+                    "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
+                  readTime: "Auto-ID",
+                  date: "2023",
                 },
               ].map((post, index) => (
                 <article
