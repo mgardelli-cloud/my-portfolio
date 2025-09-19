@@ -1,24 +1,18 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { createPortal } from "react-dom"
+import Link from "next/link"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
   const [activeSection, setActiveSection] = useState("")
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedProject, setSelectedProject] = useState(null)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
-  const modalRoot = useRef(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark)
   }, [isDark])
 
   useEffect(() => {
-    modalRoot.current = document.createElement("div")
-    document.body.appendChild(modalRoot.current)
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -35,29 +29,14 @@ export default function Home() {
       if (section) observer.observe(section)
     })
 
-    return () => {
-      observer.disconnect()
-      if (modalRoot.current) {
-        document.body.removeChild(modalRoot.current)
-      }
-    }
+    return () => observer.disconnect()
   }, [])
 
   const toggleTheme = () => {
     setIsDark(!isDark)
   }
 
-  const handleProjectClick = (project) => {
-    setSelectedProject(project)
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedProject(null)
-  }
-
-  // Definisci i dati dei progetti qui per renderli accessibili al popup
+  // Definisci i dati dei progetti qui per renderli accessibili al popup (ora non più in uso)
   const projectsData = [
     {
       title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
@@ -84,67 +63,6 @@ export default function Home() {
       date: "2023",
     },
   ]
-
-  const Modal = ({ isOpen, onClose, project }) => {
-    if (!isOpen || !project || !modalRoot.current) return null
-
-    return createPortal(
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in-fast">
-        <div className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto p-6 sm:p-8 rounded-lg bg-card border border-border shadow-2xl transition-all duration-300 transform scale-95 opacity-0 animate-scale-in">
-          {/* Back arrow button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 left-4 text-white hover:text-gray-300 transition-colors"
-            aria-label="Close modal"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </button>
-          {/* Close button (X) */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-            aria-label="Close modal"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <div className="space-y-4 pt-10">
-            <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
-              <span>{project.date}</span>
-              <span>{project.readTime}</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-medium leading-tight">
-              {project.title}
-            </h3>
-            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{project.excerpt}</p>
-            {/* Placeholder text for the user to replace */}
-            <div className="mt-8 space-y-4">
-              <p className="text-foreground text-sm sm:text-base leading-relaxed">
-                Questo è un testo di esempio per riempire il popup. Puoi sostituirlo con i dettagli completi del progetto, come obiettivi, sfide tecniche, soluzioni implementate e risultati raggiunti.
-              </p>
-              <p className="text-foreground text-sm sm:text-base leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>,
-      modalRoot.current
-    )
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -318,7 +236,6 @@ export default function Home() {
                 <article
                   key={index}
                   className="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 cursor-pointer"
-                  onClick={() => handleProjectClick(post)}
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
@@ -461,9 +378,6 @@ export default function Home() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"></div>
-
-      {/* Modal for displaying project details */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} project={selectedProject} />
     </div>
   )
 }
