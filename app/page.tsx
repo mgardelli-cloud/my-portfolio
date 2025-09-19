@@ -1,18 +1,24 @@
 "use client"
 
-import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
   const [activeSection, setActiveSection] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedProject, setSelectedProject] = useState(null)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
+  const modalRoot = useRef(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark)
   }, [isDark])
 
   useEffect(() => {
+    modalRoot.current = document.createElement("div")
+    document.body.appendChild(modalRoot.current)
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -29,11 +35,90 @@ export default function Home() {
       if (section) observer.observe(section)
     })
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      if (modalRoot.current) {
+        document.body.removeChild(modalRoot.current)
+      }
+    }
   }, [])
 
   const toggleTheme = () => {
     setIsDark(!isDark)
+  }
+
+  const handleProjectClick = (project) => {
+    setSelectedProject(project)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedProject(null)
+  }
+
+  // Definisci i dati dei progetti qui per renderli accessibili al popup
+  const projectsData = [
+    {
+      title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
+      excerpt: "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
+      readTime: "Auto-ID",
+      date: "2025",
+    },
+    {
+      title: "RFID label Tags Serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
+      excerpt: "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
+      readTime: "Automation - Traceability",
+      date: "2025",
+    },
+    {
+      title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
+      excerpt: "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
+      readTime: "Print & Apply",
+      date: "2024",
+    },
+    {
+      title: "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
+      excerpt: "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
+      readTime: "Auto-ID",
+      date: "2023",
+    },
+  ]
+
+  const Modal = ({ isOpen, onClose, project }) => {
+    if (!isOpen || !project || !modalRoot.current) return null
+
+    return createPortal(
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in-fast">
+        <div className="relative w-full max-w-2xl p-6 sm:p-8 rounded-lg bg-card border border-border shadow-2xl transition-all duration-300 transform scale-95 opacity-0 animate-scale-in">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Close modal"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
+              <span>{project.date}</span>
+              <span>{project.readTime}</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-medium leading-tight">
+              {project.title}
+            </h3>
+            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{project.excerpt}</p>
+          </div>
+        </div>
+      </div>,
+      modalRoot.current
+    )
   }
 
   return (
@@ -204,39 +289,11 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-light">Recent Projects</h2>
 
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
-              {[
-                {
-                  title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
-                  excerpt:
-                    "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
-                  readTime: "Auto-ID",
-                  date: "2025",
-                },
-                {
-                  title: "RFID label Tags Serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
-                  excerpt:
-                    "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
-                  readTime: "Automation - Traceability",
-                  date: "2025",
-                },
-                {
-                  title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
-                  excerpt:
-                    "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
-                  readTime: "Print & Apply",
-                  date: "2024",
-                },
-                {
-                  title: "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
-                  excerpt:
-                    "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
-                  readTime: "Auto-ID",
-                  date: "2023",
-                },
-              ].map((post, index) => (
+              {projectsData.map((post, index) => (
                 <article
                   key={index}
                   className="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 cursor-pointer"
+                  onClick={() => handleProjectClick(post)}
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
@@ -289,7 +346,7 @@ export default function Home() {
             <div className="space-y-6 sm:space-y-8">
               <div className="text-sm text-muted-foreground font-mono">CONTACT</div>
               <div className="space-y-4">
-                <Link
+                <a
                   href="mailto:gardellimarco3@gmail.com"
                   className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                 >
@@ -302,8 +359,8 @@ export default function Home() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </Link>
-                <Link
+                </a>
+                <a
                   href="tel:+393468691548"
                   className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                 >
@@ -316,7 +373,7 @@ export default function Home() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -379,6 +436,9 @@ export default function Home() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"></div>
+
+      {/* Modal for displaying project details */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} project={selectedProject} />
     </div>
   )
 }
