@@ -250,7 +250,7 @@ export default function Home() {
                     <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{post.excerpt}</p>
 
                     <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                      <span>Read more</span>
+                      <span>© </span>
                       <svg
                         className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
                         fill="none"
