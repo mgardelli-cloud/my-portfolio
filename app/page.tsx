@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import LiquidEther from "./LiquidEther"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
@@ -37,7 +36,7 @@ export default function Home() {
     setIsDark(!isDark)
   }
 
-  // Define the project data here to make it accessible to the popup (no longer in use)
+  // Definisci i dati dei progetti qui per renderli accessibili al popup (ora non più in uso)
   const projectsData = [
     {
       title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
@@ -65,15 +64,15 @@ export default function Home() {
     },
   ]
 
-  // Map specific Wikipedia links for each skill
+  // Mappa i link di Wikipedia specifici per ogni skill
   const wikipediaLinks = {
     "Auto-ID": "https://en.wikipedia.org/wiki/Automatic_identification_and_data_capture",
     "Print & Apply": "https://en.wikipedia.org/wiki/Label_printer_applicator",
   };
 
-  // Function to generate the Wikipedia URL
+  // Funzione per generare l'URL di Wikipedia
   const getWikipediaUrl = (skill) => {
-    // Use the specific link if it exists, otherwise generate a generic one
+    // Usa il link specifico se esiste, altrimenti genera quello generico
     if (wikipediaLinks[skill]) {
       return wikipediaLinks[skill];
     }
@@ -83,27 +82,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      {/* Full-screen animated background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <LiquidEther
-          colors={[ '#5227FF', '#FF9FFC', '#B19EEF' ]}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
-      </div>
-
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
           {["intro", "work", "projects", "connect"].map((section) => (
@@ -119,7 +97,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 z-10 relative">
+      <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
         <header
           id="intro"
           ref={(el) => (sectionsRef.current[0] = el)}
