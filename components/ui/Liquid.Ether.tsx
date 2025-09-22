@@ -55,8 +55,8 @@ interface LiquidEtherWebGL {
 const defaultColors = ['#fffeff', '#fffeff', '#040013'];
 
 export default function LiquidEther({
-  mouseForce = 20,
-  cursorSize = 100,
+  mouseForce = 11,
+  cursorSize = 60,
   isViscous = false,
   viscous = 30,
   iterationsViscous = 32,
@@ -68,9 +68,9 @@ export default function LiquidEther({
   colors = defaultColors,
   style = {},
   className = '',
-  autoDemo = true,
-  autoSpeed = 0.5,
-  autoIntensity = 2.2,
+  autoDemo = false,
+  autoSpeed = 0.05,
+  autoIntensity = 0.03,
   takeoverDuration = 0.25,
   autoResumeDelay = 1000,
   autoRampDuration = 0.6
