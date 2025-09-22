@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
   const [activeSection, setActiveSection] = useState("")
+  const [showBuildWith, setShowBuildWith] = useState(false)
   const sectionsRef = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
@@ -36,49 +36,50 @@ export default function Home() {
     setIsDark(!isDark)
   }
 
-  // Definisci i dati dei progetti qui per renderli accessibili al popup (ora non più in uso)
   const projectsData = [
     {
       title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
-      excerpt: "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
+      excerpt:
+        "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
       readTime: "Auto-ID",
       date: "2025",
     },
     {
       title: "RFID label Tags Serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
-      excerpt: "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
+      excerpt:
+        "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
       readTime: "Automation - Traceability",
       date: "2025",
     },
     {
       title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
-      excerpt: "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
+      excerpt:
+        "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
       readTime: "Print & Apply",
       date: "2024",
     },
     {
-      title: "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
-      excerpt: "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
+      title:
+        "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
+      excerpt:
+        "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
       readTime: "Auto-ID",
       date: "2023",
     },
   ]
 
-  // Mappa i link di Wikipedia specifici per ogni skill
   const wikipediaLinks = {
     "Auto-ID": "https://en.wikipedia.org/wiki/Automatic_identification_and_data_capture",
     "Print & Apply": "https://en.wikipedia.org/wiki/Label_printer_applicator",
-  };
+  }
 
-  // Funzione per generare l'URL di Wikipedia
   const getWikipediaUrl = (skill) => {
-    // Usa il link specifico se esiste, altrimenti genera quello generico
     if (wikipediaLinks[skill]) {
-      return wikipediaLinks[skill];
+      return wikipediaLinks[skill]
     }
-    const pageName = skill.replace(/ /g, '_').replace(/&/g, 'and');
-    return `https://en.wikipedia.org/wiki/${pageName}`;
-  };
+    const pageName = skill.replace(/ /g, "_").replace(/&/g, "and")
+    return `https://en.wikipedia.org/wiki/${pageName}`
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -376,25 +377,67 @@ export default function Home() {
                 )}
               </button>
 
-              <button className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300">
-                <svg
-                  className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
+              <button
+                onClick={() => setShowBuildWith(true)}
+                className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors text-xs text-gray-300 hover:text-white"
+              >
+                Build with:
               </button>
             </div>
           </div>
         </footer>
       </main>
+
+      {showBuildWith && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 relative">
+            <button
+              onClick={() => setShowBuildWith(false)}
+              className="absolute top-2 right-2 text-white hover:text-gray-300 text-xl font-bold"
+            >
+              ×
+            </button>
+
+            <div className="space-y-3 mt-4">
+              <div>
+                <a
+                  href="https://nextjs.org/"
+                  target="_blank"
+                  className="text-white hover:underline font-semibold"
+                  rel="noreferrer"
+                >
+                  Next.js
+                </a>
+                <span className="text-gray-400"> - React framework</span>
+              </div>
+
+              <div>
+                <a
+                  href="https://www.typescriptlang.org/"
+                  target="_blank"
+                  className="text-white hover:underline font-semibold"
+                  rel="noreferrer"
+                >
+                  TypeScript
+                </a>
+                <span className="text-gray-400"> - Type safety</span>
+              </div>
+
+              <div>
+                <a
+                  href="https://tailwindcss.com/"
+                  target="_blank"
+                  className="text-white hover:underline font-semibold"
+                  rel="noreferrer"
+                >
+                  Tailwind CSS
+                </a>
+                <span className="text-gray-400"> - Styling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"></div>
     </div>
