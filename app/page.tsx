@@ -1,7 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
+import LiquidEther from "./LiquidEther"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
@@ -36,24 +37,89 @@ export default function Home() {
     setIsDark(!isDark)
   }
 
+  // Define the project data here to make it accessible to the popup (no longer in use)
+  const projectsData = [
+    {
+      title: "Stationary Industrial Scanners, Photocell-Operated, interfaced to MES/ERP with custom Middleware",
+      excerpt: "Implementation of fixed Industrial Scanning Systems, activated by photocells for automated data collection. Development of custom middleware to route information in real time to MES/ERP systems, optimizing production line efficiency",
+      readTime: "Auto-ID",
+      date: "2025",
+    },
+    {
+      title: "RFID label Tags Serializator, Ink-jet Marker combined with RFID Reader and Keyence System Visions",
+      excerpt: "Engineered a PLC-controlled RFID and inkjet label serialization system. This project ensures comprehensive traceability for each label and RFID tag, complemented by Keyence vision systems for quality control and data verification.",
+      readTime: "Automation - Traceability",
+      date: "2025",
+    },
+    {
+      title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
+      excerpt: "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
+      readTime: "Print & Apply",
+      date: "2024",
+    },
+    {
+      title: "Industrial Android devices Fleets, deployed with MDM and AS400 emulator, configured with SE58 Scan Engine",
+      excerpt: "Management and configuration of multiple fleets of industrial Android devices. Each device is equipped with an AS400 emulator and managed via MDM for centralized control, and configured with a powerful SE58 scan engine for lightning-fast barcode reading.",
+      readTime: "Auto-ID",
+      date: "2023",
+    },
+  ]
+
+  // Map specific Wikipedia links for each skill
+  const wikipediaLinks = {
+    "Auto-ID": "https://en.wikipedia.org/wiki/Automatic_identification_and_data_capture",
+    "Print & Apply": "https://en.wikipedia.org/wiki/Label_printer_applicator",
+  };
+
+  // Function to generate the Wikipedia URL
+  const getWikipediaUrl = (skill) => {
+    // Use the specific link if it exists, otherwise generate a generic one
+    if (wikipediaLinks[skill]) {
+      return wikipediaLinks[skill];
+    }
+    const pageName = skill.replace(/ /g, '_').replace(/&/g, 'and');
+    return `https://en.wikipedia.org/wiki/${pageName}`;
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      {/* Full-screen animated background */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
+        <LiquidEther
+          colors={[ '#5227FF', '#FF9FFC', '#B19EEF' ]}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
+      </div>
+
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
-          {["intro", "work", "thoughts", "connect"].map((section) => (
+          {["intro", "work", "projects", "connect"].map((section) => (
             <button
               key={section}
               onClick={() => document.getElementById(section)?.scrollIntoView({ behavior: "smooth" })}
               className={`w-2 h-8 rounded-full transition-all duration-500 ${
                 activeSection === section ? "bg-foreground" : "bg-muted-foreground/30 hover:bg-muted-foreground/60"
               }`}
-              aria-label={`Navigate to ${section}`}
+              aria-label={`Maps to ${section}`}
             />
           ))}
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
+      <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 z-10 relative">
         <header
           id="intro"
           ref={(el) => (sectionsRef.current[0] = el)}
@@ -102,12 +168,15 @@ export default function Home() {
                 <div className="text-sm text-muted-foreground font-mono">FOCUS</div>
                 <div className="flex flex-wrap gap-2">
                   {["Auto-ID", "RFID", "Print & Apply", "Industrial Automation", "Traceability"].map((skill) => (
-                    <span
+                    <a
                       key={skill}
+                      href={getWikipediaUrl(skill)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="px-3 py-1 text-xs border border-border rounded-full hover:border-muted-foreground/50 transition-colors duration-300"
                     >
                       {skill}
-                    </span>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -133,15 +202,15 @@ export default function Home() {
                   role: "Technical Consultant / Specialist",
                   company: "Pluriservice SPA",
                   description:
-                    "For projects in food, Pharma, automotive or manufacturing that require item-level traceability and Labeling.",
-                  tech: ["Traceability", "Labeling", "MES/ERP", "WMS"],
+                    "For projects in Food, Pharma, Automotive or Manufacturing that require item-level Traceability and Labeling.",
+                  tech: ["Traceability", "Labeling", "MES/ERP", "Automation", "WMS"],
                 },
                 {
                   year: "2020 - Present",
                   role: "Systems Integrator / Solutions Architect",
                   company: "Pluriservice SPA",
                   description:
-                    "Coding (Scripting, APIs, PLC, Middleware). Enabling real-time communication between shop floor and management software, full-stack traceability from production to shipping.",
+                    "PLC wiring. Coding (Scripting, APIs, Middleware). Enabling real-time communication between shop floor and management software, full-stack traceability from production to shipping.",
                   tech: ["APIs", "PLC", "Middleware", "Scripting"],
                 },
                 {
@@ -157,8 +226,8 @@ export default function Home() {
                   role: "Technical Specialist",
                   company: "Pluriservice SPA",
                   description:
-                    "Started career focusing on Auto-ID solutions and industrial hardware integration for manufacturing environments.",
-                  tech: ["Auto-ID", "Industrial Hardware", "Manufacturing"],
+                    "Started career focusing on Auto-ID solutions, Industrial Hardware Repairs and Failure Analysis for manufacturing environments.",
+                  tech: ["Auto-ID", "Industrial Hardware", "Laboratory", "Manufacturing"],
                 },
               ].map((job, index) => (
                 <div
@@ -196,44 +265,15 @@ export default function Home() {
         </section>
 
         <section
-          id="thoughts"
+          id="projects"
           ref={(el) => (sectionsRef.current[2] = el)}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
           <div className="space-y-12 sm:space-y-16">
-            <h2 className="text-3xl sm:text-4xl font-light">Recent Thoughts</h2>
+            <h2 className="text-3xl sm:text-4xl font-light">Recent Projects</h2>
 
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
-              {[
-                {
-                  title: "The Automation Revolution: From Cost Center to Competitive Edge",
-                  excerpt:
-                    "Industrial automation has evolved beyond cost-cutting to become a strategic asset that unlocks agility, quality, and competitiveness in today's volatile market.",
-                  readTime: "4 min read",
-                  date: "2025",
-                },
-                {
-                  title: "The Silent Guardian: How Traceability Builds Trust and Resilience",
-                  excerpt:
-                    "Traceability transforms from regulatory burden to powerful tool for building consumer trust and operational resilience across supply chains.",
-                  readTime: "3 min read",
-                  date: "2025",
-                },
-                {
-                  title: "The Synergy of Automation and Traceability: A Digital Backbone",
-                  excerpt:
-                    "When automation and traceability work together, they form a digital backbone that drives efficiency, quality, and intelligence across manufacturing operations.",
-                  readTime: "4 min read",
-                  date: "2025",
-                },
-                {
-                  title: "The Future is Smart: Navigating the Next Wave of Industrial Transformation",
-                  excerpt:
-                    "AI, IoT, and digital twins are driving the next phase of industrial transformation, creating unprecedented levels of predictive control and optimization.",
-                  readTime: "5 min read",
-                  date: "2025",
-                },
-              ].map((post, index) => (
+              {projectsData.map((post, index) => (
                 <article
                   key={index}
                   className="group p-6 sm:p-8 border border-border rounded-lg hover:border-muted-foreground/50 transition-all duration-500 cursor-pointer"
@@ -251,7 +291,7 @@ export default function Home() {
                     <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{post.excerpt}</p>
 
                     <div className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                      <span>Read more</span>
+                      <span>® </span>
                       <svg
                         className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
                         fill="none"
@@ -289,7 +329,7 @@ export default function Home() {
             <div className="space-y-6 sm:space-y-8">
               <div className="text-sm text-muted-foreground font-mono">CONTACT</div>
               <div className="space-y-4">
-                <Link
+                <a
                   href="mailto:gardellimarco3@gmail.com"
                   className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                 >
@@ -302,8 +342,8 @@ export default function Home() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </Link>
-                <Link
+                </a>
+                <a
                   href="tel:+393468691548"
                   className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                 >
@@ -316,7 +356,7 @@ export default function Home() {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
