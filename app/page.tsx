@@ -393,10 +393,10 @@ export default function Home() {
 
       {showBuildWith && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-900 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 relative">
+          <div className="bg-background p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 relative">
             <button
               onClick={() => setShowBuildWith(false)}
-              className="absolute top-2 right-2 text-white hover:text-gray-300 text-xl font-bold"
+              className="absolute top-2 right-2 text-foreground hover:text-muted-foreground text-xl font-bold"
             >
               ×
             </button>
@@ -406,36 +406,36 @@ export default function Home() {
                 <a
                   href="https://nextjs.org/"
                   target="_blank"
-                  className="text-white hover:underline font-semibold"
+                  className="text-foreground hover:underline font-semibold"
                   rel="noreferrer"
                 >
                   Next.js
                 </a>
-                <span className="text-gray-400"> - React framework</span>
+                <span className="text-muted-foreground"> - React framework</span>
               </div>
 
               <div>
                 <a
                   href="https://www.typescriptlang.org/"
                   target="_blank"
-                  className="text-white hover:underline font-semibold"
+                  className="text-foreground hover:underline font-semibold"
                   rel="noreferrer"
                 >
                   TypeScript
                 </a>
-                <span className="text-gray-400"> - Type safety</span>
+                <span className="text-muted-foreground"> - Type safety</span>
               </div>
 
               <div>
                 <a
                   href="https://tailwindcss.com/"
                   target="_blank"
-                  className="text-white hover:underline font-semibold"
+                  className="text-foreground hover:underline font-semibold"
                   rel="noreferrer"
                 >
                   Tailwind CSS
                 </a>
-                <span className="text-gray-400"> - Styling</span>
+                <span className="text-muted-foreground"> - Styling</span>
               </div>
             </div>
           </div>
