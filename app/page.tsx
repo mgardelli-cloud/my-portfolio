@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import LiquidEther from "../components/ui/Liquid.Ether"
 
 export default function Home() {
   const [isDark, setIsDark] = useState(true)
@@ -83,15 +82,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <div className="absolute inset-0 z-0">
-        <LiquidEther
-          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-          resolution={0.5}
-          autoDemo={true}
-          mouseForce={15}
-          cursorSize={100}
-        />
-      </div>
       <nav className="fixed left-8 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
         <div className="flex flex-col gap-4">
           {["intro", "work", "projects", "connect"].map((section) => (
