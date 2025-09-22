@@ -52,7 +52,8 @@ export default function Home() {
       date: "2025",
     },
     {
-      title: "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
+      title:
+        "Print and Apply system made by combining an integrated Cobot, mini-PC and an Industrial Thermal Printer",
       excerpt:
         "Design of an advanced Print and Apply system that uses a Cobot for precise label application. The system includes an integrated mini-PC for software management and a 6-inch thermal printer, ensuring extreme flexibility.",
       readTime: "Print & Apply",
@@ -379,9 +380,11 @@ export default function Home() {
 
               <button
                 onClick={() => setShowBuildWith(true)}
-                className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors text-xs text-gray-300 hover:text-white"
+                className="group py-2 px-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
               >
-                Build with:
+                <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                  Built With
+                </span>
               </button>
             </div>
           </div>
