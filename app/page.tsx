@@ -339,8 +339,8 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="space-y-4 mt-8">
-                <div className="text-sm text-muted-foreground font-mono">SIDE PROJECT</div>
+              <div className="space-y-4 mt-16 pt-8 border-t border-border/30">
+                <div className="text-sm text-muted-foreground font-mono">SIDE PROJECTS</div>
                 <button
                   onClick={() => window.open('https://ai-prompt-library-eight.vercel.app/', '_blank')}
                   className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
