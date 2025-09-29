@@ -338,6 +338,19 @@ export default function Home() {
                   </svg>
                 </a>
               </div>
+
+              <div className="space-y-4 mt-8">
+                <div className="text-sm text-muted-foreground font-mono">SIDE PROJECT</div>
+                <button
+                  onClick={() => window.open('https://ai-prompt-library-eight.vercel.app/', '_blank')}
+                  className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
+                  aria-label="Open AI Prompt Library"
+                >
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300">
+                    Ai-Promt-Library
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </section>
