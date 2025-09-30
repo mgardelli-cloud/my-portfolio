@@ -1,50 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Project, Job } from "@/types";
+import { useRef, useState, useEffect } from "react";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import Navigation from "@/components/Navigation";
 import ProjectCard from "@/components/ProjectCard";
 import JobTimeline from "@/components/JobTimeline";
 import ContactSection from "@/components/ContactSection";
 import ThemeToggle from "@/components/ThemeToggle";
 import BuildWithModal from "@/components/BuildWithModal";
+import { useThemeContext } from "@/context/ThemeContext";
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true);
-  const [activeSection, setActiveSection] = useState("");
+  const { isDark } = useThemeContext();
   const [showBuildWith, setShowBuildWith] = useState(false);
-  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const sections = ["intro", "work", "projects", "connect"];
-
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  
+  // Initialize section refs with proper typing
+  const setSectionRef = (el: HTMLElement | null, id: string) => {
+    if (el) {
+      sectionRefs.current[id] = el;
+    }
+  };
+  
   // Set dark mode class on mount and when isDark changes
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
-
-  // Intersection Observer for section detection
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up");
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.3, rootMargin: "0px 0px -20% 0px" }
-    );
-
-    sectionsRef.current.forEach((section) => {
-      if (section) observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
 
   // Project data
   const projectsData: Project[] = [
@@ -116,29 +99,25 @@ export default function Home() {
     },
   ];
 
-  // Wikipedia links for skills
-  const wikipediaLinks = {
+  // Wikipedia links for skills with proper typing
+  const wikipediaLinks: Record<string, string> = {
     "Auto-ID": "https://en.wikipedia.org/wiki/Automatic_identification_and_data_capture",
     "Print & Apply": "https://en.wikipedia.org/wiki/Label_printer_applicator",
   };
 
-  const getWikipediaUrl = (skill: string): string => {
-    if (wikipediaLinks[skill as keyof typeof wikipediaLinks]) {
-      return wikipediaLinks[skill as keyof typeof wikipediaLinks];
-    }
-    const pageName = skill.replace(/ /g, "_").replace(/&/g, "and");
-    return `https://en.wikipedia.org/wiki/${pageName}`;
+  const getWikipediaUrl = (skill: string): string | undefined => {
+    return wikipediaLinks[skill];
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <Navigation activeSection={activeSection} sections={sections} />
+      <Navigation sections={sections} />
 
       <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
         <header
           id="intro"
-          ref={(el) => (sectionsRef.current[0] = el)}
-          className="min-h-screen flex items-center opacity-0"
+          ref={(el) => setSectionRef(el, 'intro')}
+          className="min-h-screen py-20 sm:py-32"
         >
           <div className="grid lg:grid-cols-5 gap-12 sm:gap-16 w-full">
             <div className="lg:col-span-3 space-y-6 sm:space-y-8">
@@ -201,7 +180,7 @@ export default function Home() {
 
         <section
           id="work"
-          ref={(el) => (sectionsRef.current[1] = el)}
+          ref={(el) => setSectionRef(el, 'work')}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
           <div className="space-y-12 sm:space-y-16">
@@ -215,7 +194,7 @@ export default function Home() {
 
         <section
           id="projects"
-          ref={(el) => (sectionsRef.current[2] = el)}
+          ref={(el) => setSectionRef(el, 'projects')}
           className="min-h-screen py-20 sm:py-32 opacity-0"
         >
           <div className="space-y-12 sm:space-y-16">
@@ -230,7 +209,7 @@ export default function Home() {
 
         <section 
           id="connect" 
-          ref={(el) => (sectionsRef.current[3] = el)} 
+          ref={(el) => setSectionRef(el, 'connect')} 
           className="py-20 sm:py-32 opacity-0"
         >
           <ContactSection />
@@ -244,7 +223,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-4">
-              <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+              <ThemeToggle />
 
               <button
                 onClick={() => setShowBuildWith(true)}

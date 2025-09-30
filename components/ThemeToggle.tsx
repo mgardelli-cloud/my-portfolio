@@ -1,22 +1,22 @@
 'use client';
 
-interface ThemeToggleProps {
-  isDark: boolean;
-  toggleTheme: () => void;
-}
+import { useThemeContext } from '@/context/ThemeContext';
 
-export default function ThemeToggle({ isDark, toggleTheme }: ThemeToggleProps) {
+export default function ThemeToggle() {
+  const { isDark, toggleTheme } = useThemeContext();
+  
   return (
     <button
       onClick={toggleTheme}
       className="group p-3 rounded-lg border border-border hover:border-muted-foreground/50 transition-all duration-300"
-      aria-label="Toggle theme"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {isDark ? (
         <svg
           className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
           fill="currentColor"
           viewBox="0 0 20 20"
+          aria-hidden="true"
         >
           <path
             fillRule="evenodd"
@@ -29,10 +29,14 @@ export default function ThemeToggle({ isDark, toggleTheme }: ThemeToggleProps) {
           className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-300"
           fill="currentColor"
           viewBox="0 0 20 20"
+          aria-hidden="true"
         >
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
         </svg>
       )}
+      <span className="sr-only">
+        {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      </span>
     </button>
   );
 }
