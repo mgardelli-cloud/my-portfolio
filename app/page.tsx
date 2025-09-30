@@ -3,6 +3,7 @@
 import { Project, Job } from "@/types";
 import { useRef, useState, useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useThemeContext } from "@/context/ThemeContext";
 import Navigation from "@/components/Navigation";
 import ProjectCard from "@/components/ProjectCard";
 import JobTimeline from "@/components/JobTimeline";
@@ -23,17 +24,11 @@ export default function Home() {
     }
   };
   
+  const { isDark } = useThemeContext();
+  
   // Set dark mode class on mount and when isDark changes
   useEffect(() => {
-    // Use requestAnimationFrame to avoid layout thrashing
-    const updateDarkMode = () => {
-      document.documentElement.classList.toggle("dark", isDark);
-      // Store theme preference in localStorage for persistence
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    };
-    
-    const rafId = requestAnimationFrame(updateDarkMode);
-    return () => cancelAnimationFrame(rafId);
+    document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
 
   // Project data
