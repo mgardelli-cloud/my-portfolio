@@ -1,15 +1,17 @@
 "use client";
 
 import { Project, Job } from "@/types";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Suspense, lazy } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import Navigation from "@/components/Navigation";
-import ProjectCard from "@/components/ProjectCard";
-import JobTimeline from "@/components/JobTimeline";
-import ContactSection from "@/components/ContactSection";
-import ThemeToggle from "@/components/ThemeToggle";
-import BuildWithModal from "@/components/BuildWithModal";
 import { useThemeContext } from "@/context/ThemeContext";
+
+// Lazy load components that are not immediately needed
+const Navigation = lazy(() => import('@/components/Navigation'));
+const ProjectCard = lazy(() => import('@/components/ProjectCard'));
+const JobTimeline = lazy(() => import('@/components/JobTimeline'));
+const ContactSection = lazy(() => import('@/components/ContactSection'));
+const ThemeToggle = lazy(() => import('@/components/ThemeToggle'));
+const BuildWithModal = lazy(() => import('@/components/BuildWithModal'));
 
 export default function Home() {
   const { isDark } = useThemeContext();
@@ -26,7 +28,15 @@ export default function Home() {
   
   // Set dark mode class on mount and when isDark changes
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDark);
+    // Use requestAnimationFrame to avoid layout thrashing
+    const updateDarkMode = () => {
+      document.documentElement.classList.toggle("dark", isDark);
+      // Store theme preference in localStorage for persistence
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+    
+    const rafId = requestAnimationFrame(updateDarkMode);
+    return () => cancelAnimationFrame(rafId);
   }, [isDark]);
 
   // Project data
@@ -109,11 +119,19 @@ export default function Home() {
     return wikipediaLinks[skill];
   };
 
+  // Memoize the sections array to prevent unnecessary re-renders
+  const memoizedSections = useRef(sections);
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <Navigation sections={sections} />
+      <Suspense fallback={null}>
+        <Navigation sections={memoizedSections.current} />
 
-      <main className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
+      <main 
+        className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 relative z-10"
+        role="main"
+        aria-label="Main content"
+      >
         <header
           id="intro"
           ref={(el) => setSectionRef(el, 'intro')}
@@ -188,7 +206,9 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-light">Selected Work</h2>
               <div className="text-sm text-muted-foreground font-mono">2016 — 2025</div>
             </div>
-            <JobTimeline jobs={jobsData} />
+            <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading work experience...</div>}>
+              <JobTimeline jobs={jobsData} />
+            </Suspense>
           </div>
         </section>
 
@@ -201,7 +221,9 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-light">Recent Projects</h2>
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
               {projectsData.map((project, index) => (
-                <ProjectCard key={index} project={project} index={index} />
+                <Suspense key={index} fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-lg" />}>
+                  <ProjectCard project={project} index={index} />
+                </Suspense>
               ))}
             </div>
           </div>
@@ -223,7 +245,9 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-4">
-              <ThemeToggle />
+              <Suspense fallback={null}>
+                <ThemeToggle />
+              </Suspense>
 
               <button
                 onClick={() => setShowBuildWith(true)}
@@ -239,7 +263,9 @@ export default function Home() {
         </footer>
       </main>
 
-      <BuildWithModal isOpen={showBuildWith} onClose={() => setShowBuildWith(false)} />
+      <Suspense fallback={null}>
+        <BuildWithModal isOpen={showBuildWith} onClose={() => setShowBuildWith(false)} />
+      </Suspense>
 
       <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"></div>
     </div>
