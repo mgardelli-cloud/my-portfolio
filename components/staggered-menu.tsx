@@ -138,6 +138,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     ));
   };
 
+  // Debug: verifica che il componente venga renderizzato
+  console.log('StaggeredMenu rendering...');
+  
   return (
     <div className={`staggered-menu ${className}`} data-position={position}>
       {/* Background layers */}
@@ -164,23 +167,38 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           />
         </div>
         
-        <button
-          ref={menuButtonRef}
-          className="menu-toggle"
-          onClick={toggleMenu}
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={isOpen}
-          aria-controls="menu-panel"
-          style={{
-            color: isOpen && changeMenuColorOnOpen ? openMenuButtonColor : menuButtonColor
-          }}
-        >
-          <span className="menu-text">{isOpen ? 'Close' : 'Menu'}</span>
-          <span className="menu-icon">
-            <span className="menu-icon-line" />
-            <span className="menu-icon-line" />
-          </span>
-        </button>
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 9999
+        }}>
+          <button
+            ref={menuButtonRef}
+            id="menu-toggle-button"
+            className="menu-toggle"
+            onClick={toggleMenu}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
+            aria-controls="menu-panel"
+            style={{
+              background: '#000',
+              border: '2px solid #fff',
+              borderRadius: '50%',
+              width: '50px',
+              height: '50px',
+              color: '#fff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              boxShadow: '0 0 0 3px red'
+            }}
+          >
+            ☰
+          </button>
+        </div>
       </header>
 
       {/* Menu panel */}
@@ -294,28 +312,10 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         }
 
         /* Menu toggle button */
-        .menu-toggle {
-          display: flex !important; /* Forza la visualizzazione */
-          align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
-          background: #000 !important; /* Colore di debug */
-          border: 2px solid #fff !important; /* Bordo bianco per visibilità */
-          border-radius: 50%;
-          color: #fff !important; /* Testo bianco per contrasto */
-          font-size: 1rem;
-          font-weight: 500;
-          cursor: pointer;
-          width: 50px; /* Dimensione fissa */
-          height: 50px; /* Dimensione fissa */
-          padding: 0;
-          transition: all 0.3s var(--easing);
-          z-index: 9999 !important; /* Z-index molto alto */
-          box-shadow: 0 0 0 3px red, 0 0 20px rgba(0,0,0,0.3); /* Ombra per visibilità */
-          pointer-events: auto;
-          position: fixed; /* Posizione fissa */
-          top: 20px; /* Distanza dal bordo superiore */
-          right: 20px; /* Distanza dal bordo destro */
+        #menu-toggle-button {
+          display: block !important;
+          position: relative;
+          z-index: 9999;
         }
         
         .menu-toggle:hover {
