@@ -1,20 +1,17 @@
 "use client";
 
 import { Project, Job } from "@/types";
-import { useRef, useState, useEffect, Suspense, lazy } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useThemeContext } from "@/context/ThemeContext";
-
-// Lazy load components that are not immediately needed
-const Navigation = lazy(() => import('@/components/Navigation'));
-const ProjectCard = lazy(() => import('@/components/ProjectCard'));
-const JobTimeline = lazy(() => import('@/components/JobTimeline'));
-const ContactSection = lazy(() => import('@/components/ContactSection'));
-const ThemeToggle = lazy(() => import('@/components/ThemeToggle'));
-const BuildWithModal = lazy(() => import('@/components/BuildWithModal'));
+import Navigation from "@/components/Navigation";
+import ProjectCard from "@/components/ProjectCard";
+import JobTimeline from "@/components/JobTimeline";
+import ContactSection from "@/components/ContactSection";
+import ThemeToggle from "@/components/ThemeToggle";
+import BuildWithModal from "@/components/BuildWithModal";
 
 export default function Home() {
-  const { isDark } = useThemeContext();
+  const [activeSection, setActiveSection] = useState("intro");
   const [showBuildWith, setShowBuildWith] = useState(false);
   const sections = ["intro", "work", "projects", "connect"];
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
@@ -124,8 +121,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <Suspense fallback={null}>
-        <Navigation sections={memoizedSections.current} />
+      <Navigation 
+        sections={sections} 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection} 
+      />
 
       <main 
         className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16 relative z-10"
@@ -206,9 +206,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-light">Selected Work</h2>
               <div className="text-sm text-muted-foreground font-mono">2016 — 2025</div>
             </div>
-            <Suspense fallback={<div className="h-64 flex items-center justify-center">Loading work experience...</div>}>
-              <JobTimeline jobs={jobsData} />
-            </Suspense>
+            <JobTimeline jobs={jobsData} />
           </div>
         </section>
 
@@ -221,9 +219,7 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl font-light">Recent Projects</h2>
             <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
               {projectsData.map((project, index) => (
-                <Suspense key={index} fallback={<div className="h-64 bg-muted/20 animate-pulse rounded-lg" />}>
-                  <ProjectCard project={project} index={index} />
-                </Suspense>
+                <ProjectCard key={index} project={project} index={index} />
               ))}
             </div>
           </div>
@@ -245,9 +241,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Suspense fallback={null}>
-                <ThemeToggle />
-              </Suspense>
+              <ThemeToggle />
 
               <button
                 onClick={() => setShowBuildWith(true)}
@@ -263,9 +257,7 @@ export default function Home() {
         </footer>
       </main>
 
-      <Suspense fallback={null}>
-        <BuildWithModal isOpen={showBuildWith} onClose={() => setShowBuildWith(false)} />
-      </Suspense>
+      <BuildWithModal isOpen={showBuildWith} onClose={() => setShowBuildWith(false)} />
 
       <div className="fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none"></div>
     </div>
