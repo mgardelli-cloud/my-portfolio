@@ -263,18 +263,20 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
         /* Header styles */
         .menu-header {
-          position: fixed;
-          top: 1.5rem;
-          right: 2rem;
-          left: auto;
-          width: auto;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding: 0.5rem;
-          z-index: var(--z-header);
-          background: transparent;
-          pointer-events: none;
+          position: fixed !important;
+          top: 0 !important;
+          right: 0 !important;
+          left: auto !important;
+          width: auto !important;
+          height: auto !important;
+          display: flex !important;
+          justify-content: flex-end !important;
+          align-items: center !important;
+          padding: 1rem !important;
+          z-index: 9999 !important;
+          background: rgba(255, 0, 0, 0.1) !important; /* Sfondo rosso trasparente per debug */
+          pointer-events: none !important;
+          border: 2px dashed red !important; /* Bordo tratteggiato per debug */
         }
 
         .menu-header > * {
@@ -293,21 +295,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
         /* Menu toggle button */
         .menu-toggle {
-          display: flex;
+          display: flex !important; /* Forza la visualizzazione */
           align-items: center;
+          justify-content: center;
           gap: 0.75rem;
-          background: rgba(255, 255, 255, 0.9);
-          border: 1px solid #e0e0e0;
+          background: #000 !important; /* Colore di debug */
+          border: 2px solid #fff !important; /* Bordo bianco per visibilità */
           border-radius: 50%;
-          color: var(--accent-color, #737373);
+          color: #fff !important; /* Testo bianco per contrasto */
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
-          padding: 0.75rem;
+          width: 50px; /* Dimensione fissa */
+          height: 50px; /* Dimensione fissa */
+          padding: 0;
           transition: all 0.3s var(--easing);
-          z-index: calc(var(--z-header) + 1);
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          z-index: 9999 !important; /* Z-index molto alto */
+          box-shadow: 0 0 0 3px red, 0 0 20px rgba(0,0,0,0.3); /* Ombra per visibilità */
           pointer-events: auto;
+          position: fixed; /* Posizione fissa */
+          top: 20px; /* Distanza dal bordo superiore */
+          right: 20px; /* Distanza dal bordo destro */
         }
         
         .menu-toggle:hover {
